@@ -21,6 +21,7 @@ def on_button_pressed_a():
                 if breaker:
                     break
                 basic.pause(1000)  
+                led.toggle(x, y)
             led.plot(x, y)              
     
     while(not input.button_is_pressed(Button.A)):
@@ -37,6 +38,7 @@ def on_button_pressed_a():
                 if breaker:
                     break
                 basic.pause(1000)
+                led.toggle(x, y)
             led.unplot(4-x, 4-y)
 
 

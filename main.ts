@@ -22,6 +22,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
                 }
                 
                 basic.pause(1000)
+                led.toggle(x, y)
             }
             led.plot(x, y)
         }
@@ -43,6 +44,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
                 }
                 
                 basic.pause(1000)
+                led.toggle(x, y)
             }
             led.unplot(4 - x, 4 - y)
         }
