@@ -1,6 +1,8 @@
 let breaker = false
 let running = false
 let counter = 0
+let led_enable = true
+let on_pause = false
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     let y: number;
     let x: number;
@@ -8,10 +10,10 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
     
     
+    
     breaker = false
     running = true
     basic.showNumber(counter)
-    basic.clearScreen()
     led.setBrightness(25)
     basic.clearScreen()
     for (y = 0; y < 5; y++) {
@@ -21,20 +23,22 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
                     break
                 }
                 
-                basic.pause(1000)
+                basic.pause(1)
                 led.toggle(x, y)
             }
             led.plot(x, y)
         }
     }
-    while (!input.buttonIsPressed(Button.A)) {
-        if (breaker) {
-            break
-        }
-        
+    if (!breaker) {
+        counter += 1
+        on_pause = true
+    }
+    
+    while (on_pause && !breaker) {
         led.setBrightness(255)
         basic.pause(1000)
         led.setBrightness(25)
+        basic.pause(1000)
     }
     for (y = 0; y < 5; y++) {
         for (x = 0; x < 5; x++) {
@@ -43,23 +47,36 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
                     break
                 }
                 
-                basic.pause(1000)
-                led.toggle(x, y)
+                basic.pause(1)
+                led.toggle(4 - x, 4 - y)
             }
             led.unplot(4 - x, 4 - y)
         }
     }
     if (!breaker) {
-        counter += 1
+        basic.showNumber(counter)
+        led.setBrightness(25)
+        basic.showLeds(`
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+        `)
     }
     
+    on_pause = false
     breaker = false
     running = false
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
     
-    if (running) {
+    
+    if (running && on_pause) {
+        on_pause = false
+        return
+    } else if (running) {
         breaker = true
     }
     
@@ -73,7 +90,6 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     . . # . .
     `)
 })
-let led_enable = true
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
     led.enable(!led_enable)
@@ -81,12 +97,12 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
 })
 led.setBrightness(25)
 basic.showLeds(`
-    . . # . .
-    . # . . .
-    # # # # #
-    . # . . .
-    . . # . .
-    `)
+. . # . .
+. # . . .
+# # # # #
+. # . . .
+. . # . .
+`)
 basic.forever(function on_forever() {
     
 })
