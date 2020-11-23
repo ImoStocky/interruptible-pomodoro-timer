@@ -25,7 +25,7 @@ def on_button_pressed_a():
             for t in range(60):
                 if breaker:
                     break
-                basic.pause(1)  
+                basic.pause(1000)  
                 led.toggle(x, y)
             led.plot(x, y)              
     
@@ -45,7 +45,7 @@ def on_button_pressed_a():
             for t in range(12):
                 if breaker:
                     break
-                basic.pause(1)
+                basic.pause(1000)
                 led.toggle(4-x, 4-y)
             led.unplot(4-x, 4-y)
 
